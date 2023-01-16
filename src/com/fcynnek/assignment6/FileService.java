@@ -42,13 +42,13 @@ public class FileService {
 		return numberOfLines;
 	}
 	
-	public ProductPOJO[] readSalesData (String fileName) {
+	public SalesPOJO[] readSalesData (String fileName) {
 		
 		BufferedReader fileReader = null;
 		
 		Integer numberOfLines = countLines(fileName);
 		
-		ProductPOJO[] salesData = new ProductPOJO[numberOfLines];
+		SalesPOJO[] salesData = new SalesPOJO[numberOfLines];
 		
 		int i = 0;
 		

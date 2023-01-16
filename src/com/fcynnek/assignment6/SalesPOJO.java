@@ -2,7 +2,7 @@ package com.fcynnek.assignment6;
 
 import java.util.Date;
 
-public class ProductPOJO {
+public class SalesPOJO {
 // this class will be used to store the data from the three separate CSV files
 	
 	private Date model3_date;
