@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class FileService {
 // this class will read the three CSV files 
@@ -42,18 +44,35 @@ public class FileService {
 		return numberOfLines;
 	}
 	
-	public SalesPOJO[] readSalesData (String fileName) {
+	public ArrayList<SalesPOJO> readSalesData (String fileName) {
 		
 		BufferedReader fileReader = null;
 		
 		Integer numberOfLines = countLines(fileName);
 		
-		SalesPOJO[] salesData = new SalesPOJO[numberOfLines];
+		ArrayList<SalesPOJO> salesDataList = new ArrayList<SalesPOJO>();
 		
 		int i = 0;
 		
 		try {
 			fileReader = new BufferedReader(new FileReader(fileName));
+			
+			String line = null;
+			
+			try {
+				while ((line = fileReader.readLine()) != null) {
+					String[] parsedLine = line.split(",");
+					Date parsedDate = parsedLine[0];
+					String parsedSales = parsedLine[1];
+					
+					SalesPOJO salesData = new SalesPOJO();
+					salesData.setDate(parsedDate);
+					
+				}
+			} catch (IOException e) {
+				System.out.println("I/O Exception ocurred while reading the file");
+				e.printStackTrace();
+			}
 		} catch (FileNotFoundException e) {
 			System.out.println(".csv file error");
 			e.printStackTrace();
