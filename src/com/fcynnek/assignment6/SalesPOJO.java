@@ -1,5 +1,6 @@
 package com.fcynnek.assignment6;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class SalesPOJO {
@@ -17,8 +18,8 @@ public class SalesPOJO {
 	}
 	
 	
-	public void setDate(Date date) {
-		this.date = date;
+	public void setDate(Date formattedDate) {
+		this.date = formattedDate;
 	}
 	public void setSales(Long sales) {
 		this.sales = sales;

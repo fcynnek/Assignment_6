@@ -4,8 +4,16 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Calendar;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Formatter;
+import java.time.format.*;
 
 public class FileService {
 // this class will read the three CSV files 
@@ -44,13 +52,13 @@ public class FileService {
 		return numberOfLines;
 	}
 	
-	public ArrayList<SalesPOJO> readSalesData (String fileName) {
+	public List<SalesPOJO> readSalesData (String fileName) {
 		
 		BufferedReader fileReader = null;
 		
 		Integer numberOfLines = countLines(fileName);
 		
-		ArrayList<SalesPOJO> salesDataList = new ArrayList<SalesPOJO>();
+		List<SalesPOJO> salesDataList = new ArrayList<SalesPOJO>();
 		
 		int i = 0;
 		
@@ -62,11 +70,13 @@ public class FileService {
 			try {
 				while ((line = fileReader.readLine()) != null) {
 					String[] parsedLine = line.split(",");
-					Date parsedDate = parsedLine[0];
+					String parsedDate = parsedLine[0];
 					String parsedSales = parsedLine[1];
 					
-					SalesPOJO salesData = new SalesPOJO();
-					salesData.setDate(parsedDate);
+					List<SalesPOJO> salesData = new ArrayList<SalesPOJO>();
+					Date formattedDate = new SimpleDateFormat("MM-yyyy").parse(parsedDate);
+					salesData.setDate(formattedDate);
+					salesData.setSales(parsedSales);
 					
 				}
 			} catch (IOException e) {
