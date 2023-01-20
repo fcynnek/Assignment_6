@@ -6,9 +6,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Calendar;
 import java.util.Date;
 import java.text.DateFormat;
@@ -74,13 +76,16 @@ public class FileService {
 					String parsedSales = parsedLine[1];
 					
 					SalesPOJO salesData = new SalesPOJO();
-//					LocalDate formattedDate = LocalDate.parse(parsedDate, DateTimeFormatter.ofPattern("MMM/yy"));
-					LocalDate formattedDate;
-					if (parsedDate.matches("^(0[1-9]|1[0-2])[\\/-](0[1-9]|[12]\\\\d|3[01])[\\/-](19|20)\\\\d{2}$|^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[-\\/](19|20)\\\\d{2}$")) {
-						formattedDate = LocalDate.parse(parsedDate, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-					} else {
-						formattedDate = LocalDate.parse(parsedDate, DateTimeFormatter.ofPattern("MMM-yyyy"));
-					}
+					YearMonth formattedDate = YearMonth.parse(parsedDate, DateTimeFormatter.ofPattern("MMM-yy"));
+//					LocalDate formattedDate;
+//					if (parsedDate.matches("^(0[1-9]|1[0-2])\\/(0[1-9]|1\\d|2\\d|3[01])\\/(19|20)\\d{2}")) {
+//						formattedDate = LocalDate.parse(parsedDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+//					} else if (parsedDate.matches("^(0[1-9]|[12]\\d|3[01])\\/(0[1-9]|1[0-2])\\/(19|20)\\d{2}")) {
+//						formattedDate = LocalDate.parse(parsedDate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+//					} else {
+//						formattedDate = LocalDate.parse(parsedDate, DateTimeFormatter.ofPattern("yyyy-MMM-dd", Locale.ENGLISH));
+////						formattedDate = LocalDate.parse(parsedDate, DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withLocale(Locale.ENGLISH));
+//					}
 					salesData.setDate(formattedDate);
 					Long stringToLong = Long.parseLong(parsedSales);
 					salesData.setSales(stringToLong);

@@ -1,7 +1,9 @@
 package com.fcynnek.assignment6;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SalesApplication {
 
@@ -13,15 +15,30 @@ public class SalesApplication {
 		String teslaModelX = "modelX.csv";
 
 		FileService fileService = new FileService();
-		SalesPOJO salesData = new SalesPOJO();
+		
 		
 		
 		
 		List<SalesPOJO> salesDataList = fileService.readSalesData(teslaModel3);
 		
 		salesDataList.stream()
-					 .forEach(item -> System.out.println(salesData.getDate() + " & " + salesData.getSales()));
+					 .forEach(salesData -> System.out.println(salesData.getDate().getYear() + " & " + salesData.getSales()));
 		
+		Map<Integer, Long> totalSalesPerYear = new HashMap<>();
+		
+		salesDataList.stream().forEach(salesData -> {
+			Integer salesYear = salesData.getDate().getYear();
+			Long salesValue = salesData.getSales();
+			if (totalSalesPerYear.containsKey(salesYear)) {
+				Long tempValue = totalSalesPerYear.get(salesYear);
+				salesValue = tempValue + salesValue;
+				totalSalesPerYear.put(salesYear, salesValue);
+			} else {
+				totalSalesPerYear.put(salesYear, salesValue);
+			}
+		});
+		
+		System.out.println();
 	}
 
 }

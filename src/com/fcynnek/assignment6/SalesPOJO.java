@@ -2,17 +2,18 @@ package com.fcynnek.assignment6;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.Date;
 
 public class SalesPOJO {
 // this class will be used to store the data from the three separate CSV files
 	
-	private LocalDate date;
+	private YearMonth date;
 	private Long sales;
 
 	
 	
-	public LocalDate getDate() {
+	public YearMonth getDate() {
 		return date;
 	}
 	public Long getSales() {
@@ -21,7 +22,7 @@ public class SalesPOJO {
 	
 	
 
-	public void setDate(LocalDate formattedDate) {
+	public void setDate(YearMonth formattedDate) {
 		this.date = formattedDate;
 	}
 	public void setSales(Long sales) {
