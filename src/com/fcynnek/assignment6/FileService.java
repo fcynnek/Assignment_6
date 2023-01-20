@@ -62,14 +62,25 @@ public class FileService {
 			
 			String line = null;
 			
+			boolean isFirstLine = true;
 			try {
 				while ((line = fileReader.readLine()) != null) {
+					if (isFirstLine) {
+						isFirstLine = false;
+						continue;
+					}
 					String[] parsedLine = line.split(",");
 					String parsedDate = parsedLine[0];
 					String parsedSales = parsedLine[1];
 					
 					SalesPOJO salesData = new SalesPOJO();
-					LocalDateTime formattedDate = LocalDateTime.parse(parsedDate, DateTimeFormatter.ofPattern("MM-yy"));
+//					LocalDate formattedDate = LocalDate.parse(parsedDate, DateTimeFormatter.ofPattern("MMM/yy"));
+					LocalDate formattedDate;
+					if (parsedDate.matches("^(0[1-9]|1[0-2])[\\/-](0[1-9]|[12]\\\\d|3[01])[\\/-](19|20)\\\\d{2}$|^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[-\\/](19|20)\\\\d{2}$")) {
+						formattedDate = LocalDate.parse(parsedDate, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+					} else {
+						formattedDate = LocalDate.parse(parsedDate, DateTimeFormatter.ofPattern("MMM-yyyy"));
+					}
 					salesData.setDate(formattedDate);
 					Long stringToLong = Long.parseLong(parsedSales);
 					salesData.setSales(stringToLong);

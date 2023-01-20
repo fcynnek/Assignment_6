@@ -7,12 +7,12 @@ import java.util.Date;
 public class SalesPOJO {
 // this class will be used to store the data from the three separate CSV files
 	
-	private LocalDateTime date;
+	private LocalDate date;
 	private Long sales;
 
 	
 	
-	public LocalDateTime getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 	public Long getSales() {
@@ -21,7 +21,7 @@ public class SalesPOJO {
 	
 	
 
-	public void setDate(LocalDateTime formattedDate) {
+	public void setDate(LocalDate formattedDate) {
 		this.date = formattedDate;
 	}
 	public void setSales(Long sales) {
