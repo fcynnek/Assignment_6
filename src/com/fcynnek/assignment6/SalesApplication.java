@@ -18,9 +18,6 @@ public class SalesApplication {
 		String teslaModelX = "modelX.csv";
 
 		
-		
-//		salesDataList.stream()
-//					 .forEach(salesData -> System.out.println(salesData.getDate().getYear() + " & " + salesData.getSales()));
 		FileService fileService = new FileService();
 		List<SalesPOJO> salesDataList = fileService.readSalesData(teslaModel3);
 		Map<Integer, Long> totalSalesPerYear = new HashMap<>();
@@ -30,37 +27,53 @@ public class SalesApplication {
 						 Integer salesYear = salesData.getDate().getYear();
 						 Long salesValue = salesData.getSales();
 						 if (totalSalesPerYear.containsKey(salesYear)) {
-							 Long tempValue = totalSalesPerYear.get(salesYear);
-							 salesValue = tempValue + salesValue;
+							 Long currentValue = totalSalesPerYear.get(salesYear);
+							 salesValue = currentValue + salesValue;
 							 totalSalesPerYear.put(salesYear, salesValue);
 						 } else {
 							 totalSalesPerYear.put(salesYear, salesValue);
 						 }
 					 });
 		System.out.println("Reference for checking: " + totalSalesPerYear);	
-		System.out.println("Model 3 Yearly Sales Report\n---------------------------\n");
+		System.out.println("Model 3 Yearly Sales Report\n---------------------------");
 		totalSalesPerYear.forEach((year, sale) -> System.out.println(year + " -> " + sale));
+		System.out.println("");
+		
 		
 		Map<YearMonth, Long> bestSalesMonth = new HashMap<>();
 		
-		salesDataList.stream().max(Comparator.comparingLong(salesDataList.get(0)));
-//					 .forEach(salesData -> {
-//						 YearMonth salesYearMonth = salesData.getDate();
-//						 Long salesValue = salesData.getSales();
-//						 if (bestSalesMonth.containsValue(salesValue) < salesValue) {
-//							 
-//						 }
-//					 });
-	
-//		Map.Entry<yearMonth, sales> bestSalesMonth = null;
-//		for (Map.Entry<yearMonth, sales> currentEntry : map.entrySet()) {
-//			if (bestSalesMonth == null || currentEntry.getSales().c)
-//		}
+		salesDataList.stream()
+					 .forEach(salesData -> {
+						 YearMonth salesYearMonth = salesData.getDate();
+						 Long salesValue = salesData.getSales();
+						 Long currentMax = bestSalesMonth.get(salesYearMonth);
+						 if (currentMax == null || salesValue > currentMax) {
+							 bestSalesMonth.put(salesYearMonth, salesValue);
+						 }
+					 });
+		YearMonth bestYearMonth = bestSalesMonth.entrySet().stream()
+												.max(Map.Entry.comparingByValue())
+												.map(entry -> entry.getKey())
+												.orElse(null);
+		System.out.println("The best month for Model 3 was: " + bestYearMonth);
 		
 		
+		Map<YearMonth, Long> worstSalesMonth = new HashMap<>();
 		
-		
-		
+		salesDataList.stream()
+					 .forEach(salesData -> {
+						 YearMonth salesYearMonth = salesData.getDate();
+						 Long salesValue = salesData.getSales();
+						 Long currentMin = worstSalesMonth.get(salesYearMonth);
+						 if (currentMin == null || salesValue < currentMin) {
+							 worstSalesMonth.put(salesYearMonth, salesValue);
+						 }
+					 });
+		YearMonth worstYearMonth = worstSalesMonth.entrySet().stream()
+												  .min(Map.Entry.comparingByValue())
+												  .map(entry -> entry.getKey())
+												  .orElse(null);
+		System.out.println("The worst month for Model 3 was: " + worstYearMonth);
 	}
 
 }
