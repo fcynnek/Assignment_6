@@ -18,8 +18,31 @@ public class SalesApplication {
 		String teslaModelX = "modelX.csv";
 
 		
+		generateYearlyReport(teslaModel3, "Model 3");
+		System.out.println(""); // for spacing
+		calculateBestMonth(teslaModel3, "Model 3");
+		calculateWorstMonth(teslaModel3, "Model 3");
+		System.out.println(""); // for spacing
+
+		generateYearlyReport(teslaModelS, "Model S");
+		System.out.println(""); // for spacing
+		calculateBestMonth(teslaModelS, "Model S");
+		calculateWorstMonth(teslaModelS, "Model S");
+		System.out.println(""); // for spacing
+		
+		generateYearlyReport(teslaModelX, "Model X");
+		System.out.println(""); // for spacing
+		calculateBestMonth(teslaModelX, "Model X");
+		calculateWorstMonth(teslaModelX, "Model X");
+	}
+
+	
+
+	
+
+	public static void generateYearlyReport(String fileName, String reportName) {
 		FileService fileService = new FileService();
-		List<SalesPOJO> salesDataList = fileService.readSalesData(teslaModel3);
+		List<SalesPOJO> salesDataList = fileService.readSalesData(fileName);
 		Map<Integer, Long> totalSalesPerYear = new HashMap<>();
 		
 		salesDataList.stream()
@@ -35,11 +58,13 @@ public class SalesApplication {
 						 }
 					 });
 		System.out.println("Reference for checking: " + totalSalesPerYear);	
-		System.out.println("Model 3 Yearly Sales Report\n---------------------------");
+		System.out.println(reportName + " Yearly Sales Report\n---------------------------");
 		totalSalesPerYear.forEach((year, sale) -> System.out.println(year + " -> " + sale));
-		System.out.println("");
-		
-		
+	}
+
+	public static void calculateBestMonth(String fileName, String reportName) {
+		FileService fileService = new FileService();
+		List<SalesPOJO> salesDataList = fileService.readSalesData(fileName);
 		Map<YearMonth, Long> bestSalesMonth = new HashMap<>();
 		
 		salesDataList.stream()
@@ -55,9 +80,12 @@ public class SalesApplication {
 												.max(Map.Entry.comparingByValue())
 												.map(entry -> entry.getKey())
 												.orElse(null);
-		System.out.println("The best month for Model 3 was: " + bestYearMonth);
-		
-		
+		System.out.println("The best month for " + reportName + " was: " + bestYearMonth);
+	}
+	
+	public static void calculateWorstMonth(String fileName, String reportName) {
+		FileService fileService = new FileService();
+		List<SalesPOJO> salesDataList = fileService.readSalesData(fileName);
 		Map<YearMonth, Long> worstSalesMonth = new HashMap<>();
 		
 		salesDataList.stream()
@@ -73,7 +101,6 @@ public class SalesApplication {
 												  .min(Map.Entry.comparingByValue())
 												  .map(entry -> entry.getKey())
 												  .orElse(null);
-		System.out.println("The worst month for Model 3 was: " + worstYearMonth);
+		System.out.println("The worst month for " + reportName + " was: " + worstYearMonth);
 	}
-
 }
